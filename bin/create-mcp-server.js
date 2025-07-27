@@ -8,10 +8,17 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = path.join(path.dirname(__filename), '..');
 const sourceDir = path.join(rootDir, 'src');
-const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
+
+// Handle project name argument
+const projectName = process.argv[2];
+const targetDir = projectName ? path.resolve(projectName) : process.cwd();
 
 // Check if the target directory is empty
 const isDirectoryEmpty = () => {
+  // If target directory doesn't exist, consider it "empty"
+  if (!fs.existsSync(targetDir)) {
+    return true;
+  }
   const files = fs.readdirSync(targetDir);
   return files.length === 0 || (files.length === 1 && files[0] === '.git');
 };
@@ -35,13 +42,22 @@ const printColorMessage = (message, color) => {
 async function main() {
   console.log('\n');
   printColorMessage('🚀 Creating a new MCP server project...', 'cyan');
+  if (projectName) {
+    console.log(`📁 Project name: ${projectName}`);
+  }
   console.log('\n');
+
+  // Create target directory if it doesn't exist and we have a project name
+  if (projectName && !fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir, { recursive: true });
+    console.log(`📁 Created directory: ${targetDir}`);
+  }
 
   // Check if the directory is empty
   if (!isDirectoryEmpty()) {
-    printColorMessage('⚠️  The current directory is not empty!', 'yellow');
-    console.log('To avoid overwriting existing files, please run this command in an empty directory.');
-    console.log('You can create a new directory and run the command there:');
+    printColorMessage('⚠️  The target directory is not empty!', 'yellow');
+    console.log('To avoid overwriting existing files, please run this command with a different project name.');
+    console.log('You can also run the command in an empty directory:');
     console.log('\n  mkdir my-mcp-server && cd my-mcp-server && npx @mcpdotdirect/create-mcp-server\n');
     process.exit(1);
   }
@@ -82,10 +98,19 @@ async function main() {
     
     printColorMessage('\n🎉 MCP server project created successfully!', 'green');
     console.log('\nNext steps:');
-    console.log('  1. Install dependencies:');
-    console.log('     npm install');
-    console.log('  2. Review the README.md file for usage instructions');
-    console.log('  3. Run "npm start" or "npm run dev" to start the server');
+    if (projectName) {
+      console.log(`  1. Navigate to your project directory:`);
+      console.log(`     cd ${projectName}`);
+      console.log('  2. Install dependencies:');
+      console.log('     npm install');
+      console.log('  3. Review the README.md file for usage instructions');
+      console.log('  4. Run "npm start" or "npm run dev" to start the server');
+    } else {
+      console.log('  1. Install dependencies:');
+      console.log('     npm install');
+      console.log('  2. Review the README.md file for usage instructions');
+      console.log('  3. Run "npm start" or "npm run dev" to start the server');
+    }
     console.log('\nHappy coding! 🚀\n');
   } catch (error) {
     printColorMessage(`\n❌ Error creating MCP server project: ${error.message}`, 'red');
