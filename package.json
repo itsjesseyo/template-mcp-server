@@ -23,8 +23,8 @@
     "start:http": "node build/server/http-server.js",
     "build": "tsc && mkdir -p build/bin && cp bin/create-mcp-server.js build/bin/ && cp -r src build/ && cp tsconfig.json build/ && cp README.md build/ && cp .gitignore build/ 2>/dev/null || true",
     "build:http": "tsc src/server/http-server.ts --outDir build/server",
-    "dev": "nodemon --watch src --ext ts,json --exec \"ts-node --esm src/index.ts\"",
-    "dev:http": "nodemon --watch src --ext ts,json --exec \"ts-node --esm src/server/http-server.ts\"",
+    "dev": "nodemon --watch src --ext ts,json --exec \"tsx src/index.ts\"",
+    "dev:http": "nodemon --watch src --ext ts,json --exec \"tsx src/server/http-server.ts\"",
     "prepublishOnly": "npm run build && npm run build:http",
     "version:patch": "npm version patch",
     "version:minor": "npm version minor",
@@ -64,6 +64,7 @@
     "conventional-changelog-cli": "^5.0.0",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.1",
+    "tsx": "^4.7.0",
     "typescript": "^5.8.2"
   },
   "peerDependencies": {

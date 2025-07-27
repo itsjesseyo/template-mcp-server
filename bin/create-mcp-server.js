@@ -172,12 +172,12 @@ function createProjectPackageJson() {
     type: "module",
     main: "dist/index.js",
     scripts: {
-      start: "node --loader ts-node/esm src/index.ts",
-      "start:http": "node --loader ts-node/esm src/server/http-server.ts",
+      start: "tsx src/index.ts",
+      "start:http": "tsx src/server/http-server.ts",
       build: "tsc",
       "build:http": "tsc src/server/http-server.ts --outDir dist",
-      dev: "nodemon --watch src --ext ts,json --exec \"node --loader ts-node/esm src/index.ts\"",
-      "dev:http": "nodemon --watch src --ext ts,json --exec \"node --loader ts-node/esm src/server/http-server.ts\"",
+      dev: "nodemon --watch src --ext ts,json --exec \"tsx src/index.ts\"",
+      "dev:http": "nodemon --watch src --ext ts,json --exec \"tsx src/server/http-server.ts\"",
       inspector: "npx @modelcontextprotocol/inspector"
     },
     dependencies: {
@@ -193,7 +193,7 @@ function createProjectPackageJson() {
     devDependencies: {
       "@types/node": "^20.11.0",
       "@types/cors": "^2.8.17",
-      "ts-node": "^10.9.2",
+      "tsx": "^4.7.0",
       nodemon: "^3.0.3",
       typescript: "^5.8.2"
     }
