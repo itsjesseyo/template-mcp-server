@@ -84,12 +84,6 @@ async function main() {
     console.log('\nNext steps:');
     console.log('  1. Install dependencies:');
     console.log('     npm install');
-    console.log('     # or with yarn');
-    console.log('     yarn');
-    console.log('     # or with pnpm');
-    console.log('     pnpm install');
-    console.log('     # or with bun');
-    console.log('     bun install');
     console.log('  2. Review the README.md file for usage instructions');
     console.log('  3. Run "npm start" or "npm run dev" to start the server');
     console.log('\nHappy coding! 🚀\n');
@@ -147,35 +141,39 @@ function createProjectPackageJson() {
   
   const projectPackageJson = {
     name: "mcp-server",
-    module: "src/index.ts",
-    type: "module",
     version: "1.0.0",
     description: "Model Context Protocol (MCP) Server",
     private: true,
+    type: "module",
+    main: "dist/index.js",
     scripts: {
-      "start": "bun run src/index.ts",
-      "build": "bun build src/index.ts --outdir build --target node",
-      "build:http": "bun build src/server/http-server.ts --outdir build --target node",
-      "dev": "bun --watch src/index.ts",
-      "start:http": "bun run src/server/http-server.ts",
-      "dev:http": "bun --watch src/server/http-server.ts"
-    },
-    devDependencies: {
-      "@types/bun": "latest",
-      "@types/cors": "^2.8.17",
-      "@types/node": "^20.11.0"
-    },
-    peerDependencies: {
-      "typescript": "^5.8.2",
-      "@valibot/to-json-schema": "^1.0.0",
-      "effect": "^3.14.4"
+      start: "node --loader ts-node/esm src/index.ts",
+      "start:http": "node --loader ts-node/esm src/server/http-server.ts",
+      build: "tsc",
+      "build:http": "tsc src/server/http-server.ts --outDir dist",
+      dev: "nodemon --watch src --ext ts,json --exec \"node --loader ts-node/esm src/index.ts\"",
+      "dev:http": "nodemon --watch src --ext ts,json --exec \"node --loader ts-node/esm src/server/http-server.ts\"",
+      inspector: "npx @modelcontextprotocol/inspector"
     },
     dependencies: {
-      "fastmcp": "^1.21.0",
-      "cors": "^2.8.5",
-      "zod": "^3.24.2"
+      fastmcp: "^1.21.0",
+      cors: "^2.8.5",
+      zod: "^3.24.2"
+    },
+    peerDependencies: {
+      typescript: "^5.8.2",
+      "@valibot/to-json-schema": "^1.0.0",
+      effect: "^3.14.4"
+    },
+    devDependencies: {
+      "@types/node": "^20.11.0",
+      "@types/cors": "^2.8.17",
+      "ts-node": "^10.9.2",
+      nodemon: "^3.0.3",
+      typescript: "^5.8.2"
     }
   };
+
   
   fs.writeFileSync(
     packageJsonPath, 
