@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const rootDir = path.join(path.dirname(__filename), '..');
 const sourceDir = path.join(rootDir, 'src');
-const targetDir = process.cwd();
+const targetDir = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd();
 
 // Check if the target directory is empty
 const isDirectoryEmpty = () => {
@@ -49,6 +49,9 @@ async function main() {
   // Check if source directory exists
   if (!fs.existsSync(sourceDir)) {
     printColorMessage('⚠️  Source directory not found!', 'red');
+    console.log(`Looking for source directory at: ${sourceDir}`);
+    console.log(`Root directory: ${rootDir}`);
+    console.log(`Available files/dirs in root:`, fs.readdirSync(rootDir));
     console.log('This is likely an issue with the package installation.');
     console.log('Please report this issue at: https://github.com/mcpdotdirect/create-mcp-server/issues');
     process.exit(1);

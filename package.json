@@ -21,7 +21,7 @@
   "scripts": {
     "start": "node build/index.js",
     "start:http": "node build/server/http-server.js",
-    "build": "tsc",
+    "build": "tsc && mkdir -p build/bin && cp bin/create-mcp-server.js build/bin/ && cp -r src build/ && cp tsconfig.json build/ && cp README.md build/ && cp .gitignore build/ 2>/dev/null || true",
     "build:http": "tsc src/server/http-server.ts --outDir build/server",
     "dev": "nodemon --watch src --ext ts,json --exec \"ts-node --esm src/index.ts\"",
     "dev:http": "nodemon --watch src --ext ts,json --exec \"ts-node --esm src/server/http-server.ts\"",
