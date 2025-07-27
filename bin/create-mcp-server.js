@@ -49,9 +49,6 @@ async function main() {
   // Check if source directory exists
   if (!fs.existsSync(sourceDir)) {
     printColorMessage('⚠️  Source directory not found!', 'red');
-    console.log(`Looking for source directory at: ${sourceDir}`);
-    console.log(`Root directory: ${rootDir}`);
-    console.log(`Available files/dirs in root:`, fs.readdirSync(rootDir));
     console.log('This is likely an issue with the package installation.');
     console.log('Please report this issue at: https://github.com/mcpdotdirect/create-mcp-server/issues');
     process.exit(1);

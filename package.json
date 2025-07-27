@@ -7,7 +7,7 @@
   "private": false,
   "main": "build/index.js",
   "bin": {
-    "create-mcp-server": "./build/bin/create-mcp-server.js"
+    "create-mcp-server": "./bin/create-mcp-server.js"
   },
   "files": [
     "bin",
